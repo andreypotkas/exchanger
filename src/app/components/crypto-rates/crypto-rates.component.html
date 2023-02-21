@@ -1,0 +1,17 @@
+<p-table [columns]="selectedColumns" [value]="products" [tableStyle]="{'min-width': '50rem'}">
+    <ng-template pTemplate="caption">
+        <p-multiSelect [options]="cols" [(ngModel)]="selectedColumns" optionLabel="header"
+            selectedItemsLabel="{1} columns selected" [style]="{'min-width': '200px'}" placeholder="Choose Columns"></p-multiSelect>
+    </ng-template>
+    <ng-template pTemplate="header" let-columns>
+        <tr>
+            <th>Crypto Exchanger</th>
+            <th *ngFor="let col of columns">
+                {{col.header}}
+            </th>
+        </tr>
+    </ng-template>
+</p-table>
+
+<div>BTC: {{sellRates[0] - buyRates[0]}} USD</div>
+<div>ETH: {{sellRates[1] - buyRates[1]}} USD</div>
