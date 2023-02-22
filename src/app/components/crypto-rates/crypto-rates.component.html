@@ -1,17 +1,54 @@
-<p-table [columns]="selectedColumns" [value]="products" [tableStyle]="{'min-width': '50rem'}">
-    <ng-template pTemplate="caption">
+<p-table [columns]="cryptocurrencies" [value]="exchangers" [tableStyle]="{'min-width': '50rem'}">
+    <!-- <ng-template pTemplate="caption">
         <p-multiSelect [options]="cols" [(ngModel)]="selectedColumns" optionLabel="header"
-            selectedItemsLabel="{1} columns selected" [style]="{'min-width': '200px'}" placeholder="Choose Columns"></p-multiSelect>
-    </ng-template>
-    <ng-template pTemplate="header" let-columns>
+            selectedItemsLabel="{0} columns selected" [style]="{'min-width': '200px'}" placeholder="Choose Columns"></p-multiSelect>
+    </ng-template> -->
+    <ng-template pTemplate="header">
         <tr>
             <th>Crypto Exchanger</th>
-            <th *ngFor="let col of columns">
-                {{col.header}}
+            <th *ngFor="let col of cryptocurrencies">
+                {{col}}
             </th>
         </tr>
     </ng-template>
+    <ng-template pTemplate="body" let-product>
+        <tr *ngIf="product === 'Coinbase'">
+            <td>{{product}}</td>
+            <td>
+                {{BTC_RATE.sell.toString() | slice:0:11 }} / {{BTC_RATE.buy.toString() | slice:0:11 }}
+            </td>
+            <td>
+                {{ETH_RATE.sell.toString() | slice:0:11 }} / {{ETH_RATE.buy.toString() | slice:0:11 }}
+            </td>
+            <td>
+                {{XRP_RATE.sell.toString() | slice:0:11 }} / {{BTC_RATE.buy.toString() | slice:0:11 }}
+            </td>
+        </tr>
+        <tr *ngIf="product === 'Kraken'">
+            <td>{{product}}</td>
+            <td>
+                {{BTC_RATE_KRAKEN.sell.toString() | slice:0:11 }} / {{BTC_RATE_KRAKEN.buy.toString() | slice:0:11 }}
+            </td>
+            <td>
+                {{ETH_RATE_KRAKEN.sell.toString() | slice:0:11 }} / {{ETH_RATE_KRAKEN.buy.toString() | slice:0:11 }}
+            </td>
+            <td>
+                {{XRP_RATE_KRAKEN.sell.toString() | slice:0:11 }} / {{BTC_RATE_KRAKEN.buy.toString() | slice:0:11 }}
+            </td>
+        </tr>
+        <tr *ngIf="product === 'Binance'">
+            <td>{{product}}</td>
+            <td>
+                {{BTC_RATE_BINANCE.sell.toString() | slice:0:11 }} / {{BTC_RATE_BINANCE.buy.toString() | slice:0:11 }}
+            </td>
+            <td>
+                {{ETH_RATE_BINANCE.sell.toString() | slice:0:11 }} / {{ETH_RATE_BINANCE.buy.toString() | slice:0:11 }}
+            </td>
+            <td>
+                {{XRP_RATE_BINANCE.sell.toString() | slice:0:11 }} / {{BTC_RATE_BINANCE.buy.toString() | slice:0:11 }}
+            </td>
+        </tr>
+        
+    </ng-template>
 </p-table>
 
-<div>BTC: {{sellRates[0] - buyRates[0]}} USD</div>
-<div>ETH: {{sellRates[1] - buyRates[1]}} USD</div>

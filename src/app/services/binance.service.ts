@@ -1,13 +1,12 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { forkJoin, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
-export class CoinbaseService {
+export class BinanceService {
 
-  private WEBSOCKET_URL = "wss://ws-feed.exchange.coinbase.com";
+  private WEBSOCKET_URL = "wss://stream.binance.com:9443/ws/ethusdt@ticker/btcusdt@ticker/xrpusdt@ticker";
   private socket: any;
   private isgWebSocketOpen: boolean = false;
 
@@ -16,26 +15,16 @@ export class CoinbaseService {
   XRP_RATE = new Subject<any>();
 
   publicWebSocketSubscriptionMsg: any = JSON.stringify({
-    "type": "subscribe",
-    "product_ids": [
-        "BTC-USD",
-        "ETH-USD",
-        "XRP-USD"
+    "method": "SUBSCRIBE",
+    "params": [
+      "BTC-210630-9000-P@ticker",
+      "ETH-210630-9000-P@ticker",
+      "XRP-210630-9000-P@ticker",
     ],
-    "channels": [
-        "heartbeat",
-        {
-            "name": "ticker",
-            "product_ids": [
-                "BTC-USD",
-                "ETH-USD",
-                "XRP-USD"
-            ]
-        }
-    ]
+    "id": 1
 });
   
-  constructor() {    
+  constructor() {
     this.openWebSocket();
   }
 
@@ -52,18 +41,13 @@ export class CoinbaseService {
     };
 
     this.socket.onmessage = (message: any) => {
-      
       const data = JSON.parse(message.data);
-
       
-      
-      if (data.type === 'ticker') {
-        switch(data.product_id){
-          case 'BTC-USD': this.BTC_RATE.next({sell: data.best_ask, buy: data.best_bid}); break;
-          case 'ETH-USD': this.ETH_RATE.next({sell: data.best_ask, buy: data.best_bid}); break;
-          case 'XRP-USD': this.XRP_RATE.next({sell: data.best_ask, buy: data.best_bid}); break;
+        switch(data.s){
+          case 'BTCUSDT': this.BTC_RATE.next({sell: data.a, buy: data.b}); break;
+          case 'ETHUSDT': this.ETH_RATE.next({sell: data.a, buy: data.b}); break;
+          case 'XRPUSDT': this.XRP_RATE.next({sell: data.a, buy: data.b}); break;
         }
-      }
     };
   }
 

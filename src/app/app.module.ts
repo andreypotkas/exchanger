@@ -9,6 +9,11 @@ import {MultiSelectModule} from 'primeng/multiselect';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { SocketIoConfig } from 'ngx-socket-io';
+
+const config: SocketIoConfig = {
+	url: 'wss://ws.kraken.com/',
+};
 
 @NgModule({
   declarations: [
