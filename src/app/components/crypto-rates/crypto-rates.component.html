@@ -1,54 +1,41 @@
-<p-table [columns]="cryptocurrencies" [value]="exchangers" [tableStyle]="{'min-width': '50rem'}">
-    <!-- <ng-template pTemplate="caption">
+<p-table [columns]="selectedColumns" [value]="[KRAKEN_RATES, BINANCE_RATES, COINBASE_RATES]" [tableStyle]="{'min-width': '50rem'}">
+    <ng-template pTemplate="caption" let-product>
         <p-multiSelect [options]="cols" [(ngModel)]="selectedColumns" optionLabel="header"
             selectedItemsLabel="{0} columns selected" [style]="{'min-width': '200px'}" placeholder="Choose Columns"></p-multiSelect>
-    </ng-template> -->
+    </ng-template>
     <ng-template pTemplate="header">
         <tr>
-            <th>Crypto Exchanger</th>
-            <th *ngFor="let col of cryptocurrencies">
-                {{col}}
+            <th>
+                SOME TITLE
             </th>
-        </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-product>
-        <tr *ngIf="product === 'Coinbase'">
-            <td>{{product}}</td>
-            <td>
-                {{BTC_RATE.sell.toString() | slice:0:11 }} / {{BTC_RATE.buy.toString() | slice:0:11 }}
-            </td>
-            <td>
-                {{ETH_RATE.sell.toString() | slice:0:11 }} / {{ETH_RATE.buy.toString() | slice:0:11 }}
-            </td>
-            <td>
-                {{XRP_RATE.sell.toString() | slice:0:11 }} / {{BTC_RATE.buy.toString() | slice:0:11 }}
-            </td>
-        </tr>
-        <tr *ngIf="product === 'Kraken'">
-            <td>{{product}}</td>
-            <td>
-                {{BTC_RATE_KRAKEN.sell.toString() | slice:0:11 }} / {{BTC_RATE_KRAKEN.buy.toString() | slice:0:11 }}
-            </td>
-            <td>
-                {{ETH_RATE_KRAKEN.sell.toString() | slice:0:11 }} / {{ETH_RATE_KRAKEN.buy.toString() | slice:0:11 }}
-            </td>
-            <td>
-                {{XRP_RATE_KRAKEN.sell.toString() | slice:0:11 }} / {{BTC_RATE_KRAKEN.buy.toString() | slice:0:11 }}
-            </td>
-        </tr>
-        <tr *ngIf="product === 'Binance'">
-            <td>{{product}}</td>
-            <td>
-                {{BTC_RATE_BINANCE.sell.toString() | slice:0:11 }} / {{BTC_RATE_BINANCE.buy.toString() | slice:0:11 }}
-            </td>
-            <td>
-                {{ETH_RATE_BINANCE.sell.toString() | slice:0:11 }} / {{ETH_RATE_BINANCE.buy.toString() | slice:0:11 }}
-            </td>
-            <td>
-                {{XRP_RATE_BINANCE.sell.toString() | slice:0:11 }} / {{BTC_RATE_BINANCE.buy.toString() | slice:0:11 }}
-            </td>
+            <th colspan="4" *ngFor="let cryptocurrency of selectedColumns">
+                <div class="flex gap-2 justify-content-center align-items-center">
+                    <img width="30" height="30" [src]=" '../../../assets/' + cryptocurrency.header + '.png' " alt="product-icon">
+                    <div>{{cryptocurrency.header}}</div>
+                </div>
+            </th>
+        <tr>
+            <th>CryptoExchanger</th>
+            <ng-container *ngFor="let cryptocurrency of selectedColumns">
+                <th [pSortableColumn]="cryptocurrency.header">Sell <p-sortIcon field="sell"></p-sortIcon></th>
+                <th [pSortableColumn]="cryptocurrency.header">Buy <p-sortIcon field="buy"></p-sortIcon></th>
+                <th [pSortableColumn]="cryptocurrency.header">Volume <p-sortIcon field="volume"></p-sortIcon></th>
+                <th>High / Low 24h</th>
+            </ng-container>
         </tr>
         
     </ng-template>
+    <ng-template pTemplate="body" let-product let-columns="columns">
+        <tr>
+            <td class="text-base" [style.color]="product.label.color">{{product.label.name}}</td>
+            <ng-container *ngFor="let col of columns">
+                <td>${{ (product[col.header]?.sell | slice:0:8) }}</td>
+                <td>${{(product[col.header]?.buy | slice:0:8) }}</td>
+                <td>{{(product[col.header]?.volume | slice:0:8) }}</td>
+                <td>${{(product[col.header]?.high | slice:0:8) }} / ${{(product[col.header]?.low | slice:0:8) }}</td>
+            </ng-container>
+        </tr>
+    </ng-template>
 </p-table>
 
+<p-chart [width]="'500px'" type="line" [data]="basicData"></p-chart>

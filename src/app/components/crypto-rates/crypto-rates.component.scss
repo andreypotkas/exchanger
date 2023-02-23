@@ -1,5 +1,23 @@
 :host::ng-deep {
     .p-datatable .p-datatable-tbody > tr > td {
         font-weight: bold;
+        font-size: 0.75rem;
+        padding-left: 5px;
+        padding-right: 5px;
+        // border-right: 1px solid var(--surface-border);
+    }
+
+    .p-datatable .p-datatable-thead > tr > th {
+        font-weight: bold;
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+}
+
+:host{
+    .small-text{
+        font-size: 0.6rem;
+        font-weight: 200;
+        color: grey;
     }
 }

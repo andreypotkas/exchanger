@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { switchMap, take } from 'rxjs';
+import { forkJoin, switchMap, take } from 'rxjs';
 import { BinanceService } from 'src/app/services/binance.service';
 import { CoinbaseService } from 'src/app/services/coinbase.service';
 import { KrakenService } from 'src/app/services/kraken.service';
@@ -10,68 +10,69 @@ import { KrakenService } from 'src/app/services/kraken.service';
   styleUrls: ['./crypto-rates.component.scss']
 })
 export class CryptoRatesComponent {
-  @Input() get selectedColumns(): any[] {
-    return this._selectedColumns;
-  }
+  cryptocurrencies: any[] = ['BTC', 'ETH', 'XRP', 'SOL'];
 
-  BTC_RATE: any = '';
-  ETH_RATE: any = '';
-  XRP_RATE: any = '';
-
-  BTC_RATE_KRAKEN: any = '';
-  ETH_RATE_KRAKEN: any = '';
-  XRP_RATE_KRAKEN: any = '';
-  btc_kraken_color = '';
-
-  BTC_RATE_BINANCE: any = '';
-  ETH_RATE_BINANCE: any = '';
-  XRP_RATE_BINANCE: any = '';
-
-  sellRates: any[] = [];
-  buyRates: any[] = [];
-  cryptoCyrrencies: any[] =[];
-  exchangers: any[] =['Kraken', 'Binance', 'Coinbase'];
-  cryptocurrencies: any[] = ['BTC', 'ETH', 'XRP'];
-
+  basicData!: any;
   products!: any[];
-  cols!: any[];
-  _selectedColumns!: any[];
+  cols: any[] = this.cryptocurrencies.map(item => {return {field: item, header: item}});
+  selectedColumns: any[] = this.cols.slice(0, 3);
+
+  KRAKEN_RATES: { label: any, ETH?: any, BTC?: any, XRP?: any, SOL?: any } = {label: { name:'Kraken', color: 'violet'}, BTC:'', ETH:'', XRP:'', SOL:''};
+  BINANCE_RATES: { label: any, ETH?: any, BTC?: any, XRP?: any, SOL?: any } = {label: { name:'Binance', color: 'yellow'}, BTC:'', ETH:'', XRP:'', SOL:''};
+  COINBASE_RATES: { label: any, ETH?: any, BTC?: any, XRP?: any, SOL?: any } = {label: { name: 'Coinbase', color:'blue'}, BTC:'', ETH:'', XRP:'', SOL:''};
+  objectKeys = Object.keys;
 
   constructor(
     private coinbase: CoinbaseService,
     private kraken: KrakenService,
     private binance: BinanceService,
-  ) {
-
-  }
+  ) {}
 
   ngOnInit() {
-    this.coinbase.BTC_RATE.subscribe(data => this.BTC_RATE = data);
-    this.coinbase.ETH_RATE.subscribe(data => this.ETH_RATE = data);
-    this.coinbase.XRP_RATE.subscribe(data => this.XRP_RATE = data);
+    this.binance.getHistory().subscribe((data: any) => {
+      this.basicData = {
+        labels: data.map((item: any, index: number) => index),
+        datasets: [
+            {
+                label: 'High ETH price in USD',
+                data: data.map((item: any) => item[2]),
+                fill: false,
+                borderColor: '#42A5F5',
+                tension: .4
+            },
+            {
+                label: 'Avarage Dataset price in USD',
+                data: data.map((item: any) => item[1]),
+                fill: false,
+                borderColor: '#FFA726',
+                tension: .4
+            },
+            {
+              label: 'Low Dataset price in USD',
+              data: data.map((item: any) => item[3]),
+              fill: false,
+              borderColor: 'purple',
+              tension: .4
+          }
+        ]
+    };
+    })
 
-    this.kraken.BTC_RATE.subscribe(data => { 
-      if( +data > +this.BTC_RATE_KRAKEN ){        
-        this.btc_kraken_color = 'green';
-      } else {
-        this.btc_kraken_color = 'red';
-      }
-      this.BTC_RATE_KRAKEN = data
-    });
 
-    this.kraken.ETH_RATE.subscribe(data => this.ETH_RATE_KRAKEN = data);
-    this.kraken.XRP_RATE.subscribe(data => this.XRP_RATE_KRAKEN = data);
+    
+    this.coinbase.BTC_RATE.subscribe(data => this.COINBASE_RATES.BTC = data);
+    this.coinbase.ETH_RATE.subscribe(data => this.COINBASE_RATES.ETH = data);
+    this.coinbase.XRP_RATE.subscribe(data => this.COINBASE_RATES.XRP = data);
+    this.coinbase.SOL_RATE.subscribe(data => this.COINBASE_RATES.SOL = data);
 
-    this.binance.BTC_RATE.subscribe(data => this.BTC_RATE_BINANCE = data);
-    this.binance.ETH_RATE.subscribe(data => this.ETH_RATE_BINANCE = data);
-    this.binance.XRP_RATE.subscribe(data => this.XRP_RATE_BINANCE = data);
-  }
+    this.kraken.BTC_RATE.subscribe(data => this.KRAKEN_RATES.BTC = data);
+    this.kraken.ETH_RATE.subscribe(data => this.KRAKEN_RATES.ETH = data);
+    this.kraken.XRP_RATE.subscribe(data => this.KRAKEN_RATES.XRP = data);
+    this.kraken.SOL_RATE.subscribe(data => this.KRAKEN_RATES.SOL = data);
 
-
-  
-
-  set selectedColumns(val: any[]) {
-      //restore original order
-      this._selectedColumns = this.cols.filter(col => val.includes(col));
+    this.binance.BTC_RATE.subscribe(data => this.BINANCE_RATES.BTC = data);
+    this.binance.ETH_RATE.subscribe(data => this.BINANCE_RATES.ETH = data);
+    this.binance.XRP_RATE.subscribe(data => this.BINANCE_RATES.XRP = data);
+    this.binance.SOL_RATE.subscribe(data => this.BINANCE_RATES.SOL = data);
   }
 }
