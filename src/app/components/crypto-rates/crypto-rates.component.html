@@ -1,14 +1,17 @@
-<p-table [columns]="selectedColumns" [value]="[KRAKEN_RATES, BINANCE_RATES, COINBASE_RATES]" [tableStyle]="{'min-width': '50rem'}">
+<p-table [columns]="selectedColumns" dataKey="name" [value]="[KRAKEN_RATES, BINANCE_RATES, COINBASE_RATES]" [tableStyle]="{'min-width': '50rem'}">
     <ng-template pTemplate="caption" let-product>
         <p-multiSelect [options]="cols" [(ngModel)]="selectedColumns" optionLabel="header"
-            selectedItemsLabel="{0} columns selected" [style]="{'min-width': '200px'}" placeholder="Choose Columns"></p-multiSelect>
+            selectedItemsLabel="{0} currency selected" [style]="{'min-width': '200px'}" placeholder="Choose Columns"></p-multiSelect>
+            <p-inputNumber [(ngModel)]="val"></p-inputNumber>
+        <p-dropdown [options]="cols" [(ngModel)]="selectedCurrency1" optionValue="header" optionLabel="header"></p-dropdown>
+        <p-dropdown [options]="cols" [(ngModel)]="selectedCurrency2" optionValue="header" optionLabel="header"></p-dropdown>
     </ng-template>
     <ng-template pTemplate="header">
         <tr>
             <th>
                 SOME TITLE
             </th>
-            <th colspan="2" *ngFor="let cryptocurrency of selectedColumns">
+            <th colspan="4" *ngFor="let cryptocurrency of selectedColumns">
                 <div class="flex gap-2 justify-content-center align-items-center">
                     <img width="30" height="30" [src]=" '../../../assets/' + cryptocurrency.header + '.png' " alt="product-icon">
                     <div>{{cryptocurrency.header}}</div>
@@ -19,19 +22,48 @@
             <ng-container *ngFor="let cryptocurrency of selectedColumns">
                 <th>Price</th>
                 <th>Volume 24h</th>
+                <th>{{selectedCurrency1}} / {{selectedCurrency2}}</th>
+                <th>{{selectedCurrency2}} / {{selectedCurrency1}}</th>
             </ng-container>
         </tr>
         
     </ng-template>
-    <ng-template pTemplate="body" let-product let-columns="columns">
+    <ng-template pTemplate="body" let-product let-columns="columns" let-expanded="expanded">
         <tr>
-            <td class="text-base" [style.color]="product.label.color">{{product.label.name}}</td>
+            <td class="flex gap-2 text-base" [style.color]="product.label.color">
+                <div>{{product.label.name}}</div>
+                <button type="button" pButton pRipple [pRowToggler]="product" class="p-button-text p-button-rounded p-button-plain p-button-sm h-2rem w-2rem" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
+            </td>
             <ng-container *ngFor="let col of columns">
                 <td>${{(product[col.header]?.price | slice:0:8) }}</td>
                 <td>{{(product[col.header]?.volume | slice:0:8) }}</td>
+                <td>{{(((product[selectedCurrency1]?.price / product[selectedCurrency2]?.price) * val).toString() | slice:0:8) }}</td>
+                <td>{{(((product[selectedCurrency2]?.price / product[selectedCurrency1]?.price) * val).toString() | slice:0:8) }}</td>
             </ng-container>
+        </tr>
+    </ng-template>
+
+    <ng-template pTemplate="rowexpansion" let-product let-columns="columns">
+        <tr>
+            <td>Price in BTC / ETH</td>
+            <td *ngFor="let col of columns" colspan="2">
+                <div class="flex">
+                    <div class="flex align-items-center justify-content-center">
+                        <img src="../../../assets/BTC.png" width="15" height="15" alt="coin" >{{ product[col.header + '_BTC' ] ? (product[col.header + '_BTC' ]?.price | slice:0:8) : '-' }} 
+                    </div>
+                    <div> &nbsp; / &nbsp; </div>
+                    <div class="flex align-items-center justify-content-center">
+                        <img src="../../../assets/ETH.png" width="15" height="15" alt="coin">{{ product[col.header + '_ETH' ] ? (product[col.header + '_ETH']?.price | slice:0:8) : '-' }} 
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="7">
+                <p-chart [width]="'500px'" type="line" [data]="basicData"></p-chart>
+            </td>        
         </tr>
     </ng-template>
 </p-table>
 
-<p-chart [width]="'500px'" type="line" [data]="basicData"></p-chart>
+

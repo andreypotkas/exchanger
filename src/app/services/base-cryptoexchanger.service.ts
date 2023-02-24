@@ -17,6 +17,26 @@ export abstract class BaseCryptoexchangerService {
   public LTC_RATE = new Subject<any>();
   public MATIC_RATE = new Subject<any>();
 
+  public ETH_BTC_RATE = new Subject<any>();
+  public XRP_BTC_RATE = new Subject<any>();
+  public SOL_BTC_RATE = new Subject<any>();
+  public ADA_BTC_RATE = new Subject<any>();
+  public BNB_BTC_RATE = new Subject<any>();
+  public DOGE_BTC_RATE = new Subject<any>();
+  public HBAR_BTC_RATE = new Subject<any>();
+  public LTC_BTC_RATE = new Subject<any>();
+  public MATIC_BTC_RATE = new Subject<any>();
+
+  public BTC_ETH_RATE = new Subject<any>();
+  public XRP_ETH_RATE = new Subject<any>();
+  public SOL_ETH_RATE = new Subject<any>();
+  public ADA_ETH_RATE = new Subject<any>();
+  public BNB_ETH_RATE = new Subject<any>();
+  public DOGE_ETH_RATE = new Subject<any>();
+  public HBAR_ETH_RATE = new Subject<any>();
+  public LTC_ETH_RATE = new Subject<any>();
+  public MATIC_ETH_RATE = new Subject<any>();
+
   protected publicWebSocketSubscriptionMsg!: any;
 
   protected openWebSocket() { 

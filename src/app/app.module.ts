@@ -1,16 +1,17 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CryptoRatesComponent } from './components/crypto-rates/crypto-rates.component';
-import {TableModule} from 'primeng/table';
-import {MultiSelectModule} from 'primeng/multiselect';
+import { TableModule } from 'primeng/table';
+import { MultiSelectModule } from 'primeng/multiselect';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {ChartModule} from 'primeng/chart';
-
+import { ChartModule } from 'primeng/chart';
+import { ButtonModule } from 'primeng/button';
+import { DropdownModule } from 'primeng/dropdown';
+import {InputNumberModule} from 'primeng/inputnumber';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,10 @@ import {ChartModule} from 'primeng/chart';
     FormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    ChartModule
+    ChartModule,
+    ButtonModule,
+    DropdownModule,
+    InputNumberModule
   ],
   providers: [],
   bootstrap: [AppComponent]
