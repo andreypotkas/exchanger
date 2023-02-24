@@ -10,16 +10,16 @@ import { KrakenService } from 'src/app/services/kraken.service';
   styleUrls: ['./crypto-rates.component.scss']
 })
 export class CryptoRatesComponent {
-  cryptocurrencies: any[] = ['BTC', 'ETH', 'XRP', 'SOL'];
+  cryptocurrencies: any[] = ['BTC', 'ETH', 'XRP', 'SOL', 'MATIC', 'BNB', 'DOGE', 'LTC', 'ADA', 'HBAR'];
 
   basicData!: any;
   products!: any[];
   cols: any[] = this.cryptocurrencies.map(item => {return {field: item, header: item}});
-  selectedColumns: any[] = this.cols.slice(0, 3);
+  selectedColumns: any[] = this.cols;
 
-  KRAKEN_RATES: { label: any, ETH?: any, BTC?: any, XRP?: any, SOL?: any } = {label: { name:'Kraken', color: 'violet'}, BTC:'', ETH:'', XRP:'', SOL:''};
-  BINANCE_RATES: { label: any, ETH?: any, BTC?: any, XRP?: any, SOL?: any } = {label: { name:'Binance', color: 'yellow'}, BTC:'', ETH:'', XRP:'', SOL:''};
-  COINBASE_RATES: { label: any, ETH?: any, BTC?: any, XRP?: any, SOL?: any } = {label: { name: 'Coinbase', color:'blue'}, BTC:'', ETH:'', XRP:'', SOL:''};
+  KRAKEN_RATES: { label: any, ETH?: any, BTC?: any, XRP?: any, SOL?: any, MATIC: any, BNB: any, DOGE: any, LTC: any, ADA: any, HBAR: any } = {label: { name:'Kraken', color: 'violet'}, BTC:'', ETH:'', XRP:'', SOL:'', MATIC: '', BNB:'', DOGE:'', LTC: '', ADA: '', HBAR: ''};
+  BINANCE_RATES: { label: any, ETH?: any, BTC?: any, XRP?: any, SOL?: any , MATIC: any, BNB: any, DOGE: any, LTC: any, ADA: any, HBAR: any} = {label: { name:'Binance', color: 'yellow'}, BTC:'', ETH:'', XRP:'', SOL:'', MATIC: '', BNB:'', DOGE:'', LTC: '', ADA: '', HBAR: ''};
+  COINBASE_RATES: { label: any, ETH?: any, BTC?: any, XRP?: any, SOL?: any, MATIC: any, BNB: any, DOGE: any, LTC: any, ADA: any, HBAR: any } = {label: { name: 'Coinbase', color:'blue'}, BTC:'', ETH:'', XRP:'', SOL:'', MATIC: '', BNB:'', DOGE:'', LTC: '', ADA: '', HBAR: ''};
   objectKeys = Object.keys;
 
   constructor(
@@ -64,15 +64,33 @@ export class CryptoRatesComponent {
     this.coinbase.ETH_RATE.subscribe(data => this.COINBASE_RATES.ETH = data);
     this.coinbase.XRP_RATE.subscribe(data => this.COINBASE_RATES.XRP = data);
     this.coinbase.SOL_RATE.subscribe(data => this.COINBASE_RATES.SOL = data);
+    this.coinbase.ADA_RATE.subscribe(data => this.COINBASE_RATES.ADA = data);
+    this.coinbase.BNB_RATE.subscribe(data => this.COINBASE_RATES.BNB = data);
+    this.coinbase.DOGE_RATE.subscribe(data => this.COINBASE_RATES.DOGE = data);
+    this.coinbase.HBAR_RATE.subscribe(data => this.COINBASE_RATES.HBAR = data);
+    this.coinbase.LTC_RATE.subscribe(data => this.COINBASE_RATES.LTC = data);
+    this.coinbase.MATIC_RATE.subscribe(data => this.COINBASE_RATES.MATIC = data);
 
     this.kraken.BTC_RATE.subscribe(data => this.KRAKEN_RATES.BTC = data);
     this.kraken.ETH_RATE.subscribe(data => this.KRAKEN_RATES.ETH = data);
     this.kraken.XRP_RATE.subscribe(data => this.KRAKEN_RATES.XRP = data);
     this.kraken.SOL_RATE.subscribe(data => this.KRAKEN_RATES.SOL = data);
+    this.kraken.ADA_RATE.subscribe(data => this.KRAKEN_RATES.ADA = data);
+    this.kraken.BNB_RATE.subscribe(data => this.KRAKEN_RATES.BNB = data);
+    this.kraken.DOGE_RATE.subscribe(data => this.KRAKEN_RATES.DOGE = data);
+    this.kraken.HBAR_RATE.subscribe(data => this.KRAKEN_RATES.HBAR = data);
+    this.kraken.LTC_RATE.subscribe(data => this.KRAKEN_RATES.LTC = data);
+    this.kraken.MATIC_RATE.subscribe(data => this.KRAKEN_RATES.MATIC = data);
 
     this.binance.BTC_RATE.subscribe(data => this.BINANCE_RATES.BTC = data);
     this.binance.ETH_RATE.subscribe(data => this.BINANCE_RATES.ETH = data);
     this.binance.XRP_RATE.subscribe(data => this.BINANCE_RATES.XRP = data);
     this.binance.SOL_RATE.subscribe(data => this.BINANCE_RATES.SOL = data);
+    this.binance.ADA_RATE.subscribe(data => this.BINANCE_RATES.ADA = data);
+    this.binance.BNB_RATE.subscribe(data => this.BINANCE_RATES.BNB = data);
+    this.binance.DOGE_RATE.subscribe(data => this.BINANCE_RATES.DOGE = data);
+    this.binance.HBAR_RATE.subscribe(data => this.BINANCE_RATES.HBAR = data);
+    this.binance.LTC_RATE.subscribe(data => this.BINANCE_RATES.LTC = data);
+    this.binance.MATIC_RATE.subscribe(data => this.BINANCE_RATES.MATIC = data);
   }
 }

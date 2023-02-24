@@ -8,7 +8,7 @@
             <th>
                 SOME TITLE
             </th>
-            <th colspan="4" *ngFor="let cryptocurrency of selectedColumns">
+            <th colspan="2" *ngFor="let cryptocurrency of selectedColumns">
                 <div class="flex gap-2 justify-content-center align-items-center">
                     <img width="30" height="30" [src]=" '../../../assets/' + cryptocurrency.header + '.png' " alt="product-icon">
                     <div>{{cryptocurrency.header}}</div>
@@ -17,10 +17,8 @@
         <tr>
             <th>CryptoExchanger</th>
             <ng-container *ngFor="let cryptocurrency of selectedColumns">
-                <th [pSortableColumn]="cryptocurrency.header">Sell <p-sortIcon field="sell"></p-sortIcon></th>
-                <th [pSortableColumn]="cryptocurrency.header">Buy <p-sortIcon field="buy"></p-sortIcon></th>
-                <th [pSortableColumn]="cryptocurrency.header">Volume <p-sortIcon field="volume"></p-sortIcon></th>
-                <th>High / Low 24h</th>
+                <th>Price</th>
+                <th>Volume 24h</th>
             </ng-container>
         </tr>
         
@@ -29,10 +27,8 @@
         <tr>
             <td class="text-base" [style.color]="product.label.color">{{product.label.name}}</td>
             <ng-container *ngFor="let col of columns">
-                <td>${{ (product[col.header]?.sell | slice:0:8) }}</td>
-                <td>${{(product[col.header]?.buy | slice:0:8) }}</td>
+                <td>${{(product[col.header]?.price | slice:0:8) }}</td>
                 <td>{{(product[col.header]?.volume | slice:0:8) }}</td>
-                <td>${{(product[col.header]?.high | slice:0:8) }} / ${{(product[col.header]?.low | slice:0:8) }}</td>
             </ng-container>
         </tr>
     </ng-template>

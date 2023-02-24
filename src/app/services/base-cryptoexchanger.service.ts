@@ -10,6 +10,12 @@ export abstract class BaseCryptoexchangerService {
   public ETH_RATE = new Subject<any>();
   public XRP_RATE = new Subject<any>();
   public SOL_RATE = new Subject<any>();
+  public ADA_RATE = new Subject<any>();
+  public BNB_RATE = new Subject<any>();
+  public DOGE_RATE = new Subject<any>();
+  public HBAR_RATE = new Subject<any>();
+  public LTC_RATE = new Subject<any>();
+  public MATIC_RATE = new Subject<any>();
 
   protected publicWebSocketSubscriptionMsg!: any;
 
