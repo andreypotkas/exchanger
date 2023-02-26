@@ -1,6 +1,4 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { forkJoin, Subject } from 'rxjs';
 import { BaseCryptoexchangerService } from './base-cryptoexchanger.service';
 
 @Injectable({
@@ -31,38 +29,6 @@ export class CoinbaseService extends BaseCryptoexchangerService{
 
   onMessage = (message: any) => {
     const data = JSON.parse(message.data);    
-
-      switch(data.product_id){
-        case 'BTC-USD': this.BTC_RATE.next({price: data.price, volume: data.volume_24h}); break;
-        case 'ETH-USD': this.ETH_RATE.next({price: data.price, volume: data.volume_24h}); break;
-        case 'XRP-USD': this.XRP_RATE.next({price: data.price, volume: data.volume_24h}); break;
-        case 'SOL-USD': this.SOL_RATE.next({price: data.price, volume: data.volume_24h}); break;
-        case 'ADA-USD': this.ADA_RATE.next({price: data.price, volume: data.volume_24h}); break;
-        case 'BNB-USD': this.BNB_RATE.next({price: data.price, volume: data.volume_24h}); break;
-        case 'DOGE-USD': this.DOGE_RATE.next({price: data.price, volume: data.volume_24h}); break;
-        case 'HBAR-USD': this.HBAR_RATE.next({price: data.price, volume: data.volume_24h}); break;
-        case 'LTC-USD': this.LTC_RATE.next({price: data.price, volume: data.volume_24h}); break;
-        case 'MATIC-USD': this.MATIC_RATE.next({price: data.price, volume: data.volume_24h}); break;
-
-        case 'ETH-XBT': this.ETH_BTC_RATE.next({price: data.price, volume: data.volume_24h }); break;
-        case 'XRP-XBT': this.XRP_BTC_RATE.next({price: data.price, volume: data.volume_24h }); break;
-        case 'SOL-XBT': this.SOL_BTC_RATE.next({price: data.price, volume: data.volume_24h }); break;
-        case 'ADA-XBT': this.ADA_BTC_RATE.next({price: data.price, volume: data.volume_24h}); break;
-        case 'BNB-XBT': this.BNB_BTC_RATE.next({price: data.price, volume: data.volume_24h}); break;
-        case 'DOGE-XBT': this.DOGE_BTC_RATE.next({price: data.price, volume: data.volume_24h}); break;
-        case 'HBAR-XBT': this.HBAR_BTC_RATE.next({price: data.price, volume: data.volume_24h}); break;
-        case 'LTC-XBT': this.LTC_BTC_RATE.next({price: data.price, volume: data.volume_24h}); break;
-        case 'MATIC-XBT': this.MATIC_BTC_RATE.next({price: data.price, volume: data.volume_24h}); break;
-
-        case 'XBT-ETH': this.BTC_ETH_RATE.next({price: data.price, volume: data.volume_24h }); break;
-        case 'XRP-ETH': this.XRP_ETH_RATE.next({price: data.price, volume: data.volume_24h }); break;
-        case 'SOL-ETH': this.SOL_ETH_RATE.next({price: data.price, volume: data.volume_24h }); break;
-        case 'ADA-ETH': this.ADA_ETH_RATE.next({price: data.price, volume: data.volume_24h}); break;
-        case 'BNB-ETH': this.BNB_ETH_RATE.next({price: data.price, volume: data.volume_24h}); break;
-        case 'DOGE-ETH': this.DOGE_ETH_RATE.next({price: data.price, volume: data.volume_24h}); break;
-        case 'HBAR-ETH': this.HBAR_ETH_RATE.next({price: data.price, volume: data.volume_24h}); break;
-        case 'LTC-ETH': this.LTC_ETH_RATE.next({price: data.price, volume: data.volume_24h}); break;
-        case 'MATIC-ETH': this.MATIC_ETH_RATE.next({price: data.price, volume: data.volume_24h}); break;
-      }
+    this.TICKER_STREAM.next(data);
   };
 }

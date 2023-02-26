@@ -18,7 +18,7 @@
                 </div>
             </th>
         <tr>
-            <th>CryptoExchanger</th>
+            <th>Exchanger</th>
             <ng-container *ngFor="let cryptocurrency of selectedColumns">
                 <th>Price</th>
                 <th>Volume 24h</th>
@@ -35,10 +35,10 @@
                 <button type="button" pButton pRipple [pRowToggler]="product" class="p-button-text p-button-rounded p-button-plain p-button-sm h-2rem w-2rem" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
             </td>
             <ng-container *ngFor="let col of columns">
-                <td>${{(product[col.header]?.price | slice:0:8) }}</td>
-                <td>{{(product[col.header]?.volume | slice:0:8) }}</td>
-                <td>{{(((product[selectedCurrency1]?.price / product[selectedCurrency2]?.price) * val).toString() | slice:0:8) }}</td>
-                <td>{{(((product[selectedCurrency2]?.price / product[selectedCurrency1]?.price) * val).toString() | slice:0:8) }}</td>
+                <td>${{(product[col.header + '_USD']?.price | slice:0:8) }}</td>
+                <td>{{(product[col.header + '_USD']?.volume | slice:0:8) }}</td>
+                <td>{{(((product[selectedCurrency1 + '_USD']?.price / product[selectedCurrency2 + '_USD']?.price) * val).toString() | slice:0:8) }}</td>
+                <td>{{(((product[selectedCurrency2 + '_USD']?.price / product[selectedCurrency1 + '_USD']?.price) * val).toString() | slice:0:8) }}</td>
             </ng-container>
         </tr>
     </ng-template>
