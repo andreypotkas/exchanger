@@ -23,6 +23,7 @@ export class BinanceService extends BaseCryptoexchangerService {
         "hbarusdt@ticker",
         "dogeusdt@ticker",
         "maticusdt@ticker",
+        "aaveusdt@ticker",
       ],
       "id": 1
     });
@@ -56,5 +57,9 @@ export class BinanceService extends BaseCryptoexchangerService {
     const url = 'https://api.binance.com/api/v3/klines?symbol='+market+'&interval='+tick_interval+'&limit=30'
     const data = this.http.get(url);
     return data;
+  }
+
+  convert(fromAsset: string){
+    return this.http.get(`https://api.binance.com/sapi/v1/convert/exchangeInfo?fromAsset=${fromAsset}`);
   }
 }

@@ -10,7 +10,7 @@ import { KrakenService } from 'src/app/services/kraken.service';
 })
 export class CryptoRatesComponent {
   initRateItem = { BTC_USD:'', ETH_USD:'', XRP_USD:'', SOL_USD:'', MATIC_USD: '', BNB_USD:'', DOGE_USD:'', LTC_USD: '', ADA_USD: '', HBAR_USD: '', ETH_BTC: '', XRP_BTC:'', SOL_BTC:'', MATIC_BTC: '', BNB_BTC:'', DOGE_BTC:'', LTC_BTC: '', ADA_BTC: '', HBAR_BTC: '', BTC_ETH: '', XRP_ETH:'', SOL_ETH:'', MATIC_ETH: '', BNB_ETH:'', DOGE_ETH:'', LTC_ETH: '', ADA_ETH: '', HBAR_ETH: ''}
-  cryptocurrencies: any[] = ['BTC', 'ETH', 'XRP', 'SOL', 'MATIC', 'BNB', 'DOGE', 'LTC', 'ADA', 'HBAR'];
+  cryptocurrencies: any[] = ['BTC', 'ETH', 'XRP', 'SOL', 'MATIC', 'BNB', 'DOGE', 'LTC', 'ADA', 'HBAR', 'AAVE'];
 
   selectedCurrency1!: any;
   selectedCurrency2!: any;
@@ -32,7 +32,7 @@ export class CryptoRatesComponent {
   ) {}
 
   ngOnInit() {
-    this.binance.getExchangeConvertInfo().subscribe(data => console.log(data));
+    // this.binance.getExchangeConvertInfo().subscribe(data => console.log(data));
     this.binance.getHistory().subscribe((data: any) => {
       this.basicData = {
         labels: data.map((item: any, index: number) => index),

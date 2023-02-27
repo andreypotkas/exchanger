@@ -1,0 +1,18 @@
+<div class="flex gap-2">
+    <p-dropdown [options]="cols" [(ngModel)]="selectedCurrency1" (onChange)="onChange()" optionValue="value" optionLabel="value"></p-dropdown>
+    <input type="text" pInputText [(ngModel)]="val" (input)="onAmountChange()"/>
+</div>
+<div class="flex gap-2">
+    <p-dropdown [options]="cols" [(ngModel)]="selectedCurrency2" (onChange)="onChange()" optionValue="value" optionLabel="value"></p-dropdown>
+
+    <div class="flex flex-column gap-2">
+        <div class="flex gap-2">
+            <p-inputNumber [disabled]="true" [(ngModel)]="val2"></p-inputNumber>
+            - Coinbase
+        </div>
+        <div class="flex gap-2">
+            <p-inputNumber [disabled]="true" [(ngModel)]="val3"></p-inputNumber>
+            - Binance
+        </div>
+    </div>
+</div>

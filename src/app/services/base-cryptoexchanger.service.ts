@@ -9,6 +9,7 @@ export abstract class BaseCryptoexchangerService {
   public TICKER_STREAM = new Subject<any>();
 
   protected publicWebSocketSubscriptionMsg!: any;
+  constructor(){}
 
   protected openWebSocket() { 
     this.socket = new WebSocket(this.WEBSOCKET_URL);
